@@ -1,0 +1,113 @@
+package tugaspm;
+import java.util.Scanner;
+
+class Passenger {
+    String name;
+    Passenger next;
+
+    Passenger(String name) {
+        this.name = name;
+        this.next = null;
+    }
+}
+
+class Flight {
+    private Passenger kepala;
+
+    public Flight() {
+        this.kepala = null;
+    }
+
+    public void tambahPenumpang(String name) {
+        Passenger penumpangBaru = new Passenger(name);
+        if (kepala == null) {
+            kepala = penumpangBaru;
+        } else {
+            Passenger saatIni = kepala;
+            while (saatIni.next != null) {
+                saatIni = saatIni.next;
+            }
+            saatIni.next = penumpangBaru;
+        }
+    }
+
+    public void hapusPenumpang(String name) {
+        if (kepala == null) {
+            System.out.println("Tidak ada penumpang untuk dihapus.");
+            return;
+        }
+
+        if (kepala.name.equals(name)) {
+            kepala = kepala.next;
+            return;
+        }
+
+        Passenger saatIni = kepala;
+        Passenger sebelumnya = null;
+        while (saatIni != null && !saatIni.name.equals(name)) {
+            sebelumnya = saatIni;
+            saatIni = saatIni.next;
+        }
+
+        if (saatIni != null) {
+            sebelumnya.next = saatIni.next;
+        } else {
+            System.out.println("Penumpang " + name + " tidak ditemukan.");
+        }
+    }
+
+    public void tampilkanPenumpang() {
+        if (kepala == null) {
+            System.out.println("Tidak ada penumpang dalam daftar.");
+            return;
+        }
+
+        Passenger saatIni = kepala;
+        while (saatIni != null) {
+            System.out.println(saatIni.name);
+            saatIni = saatIni.next;
+        }
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        Flight penerbangan = new Flight();
+
+        while (true) {
+            System.out.println("\nMenu:");
+            System.out.println("1. Tambah Penumpang");
+            System.out.println("2. Hapus Penumpang");
+            System.out.println("3. Tampilkan Penumpang");
+            System.out.println("4. Keluar");
+            System.out.print("Pilih opsi: ");
+            int pilihan = scanner.nextInt();
+            scanner.nextLine();  // Membersihkan baris baru setelah input angka
+
+            switch (pilihan) {
+                case 1:
+                    System.out.print("Masukkan nama penumpang: ");
+                    String namaTambah = scanner.nextLine();
+                    penerbangan.tambahPenumpang(namaTambah);
+                    System.out.println(namaTambah + " telah ditambahkan.");
+                    break;
+                case 2:
+                    System.out.print("Masukkan nama penumpang yang akan dihapus: ");
+                    String namaHapus = scanner.nextLine();
+                    penerbangan.hapusPenumpang(namaHapus);
+                    break;
+                case 3:
+                    System.out.println("Daftar Penumpang:");
+                    penerbangan.tampilkanPenumpang();
+                    break;
+                case 4:
+                    System.out.println("Keluar dari program.");
+                    scanner.close();
+                    return;
+                default:
+                    System.out.println("Pilihan tidak valid.");
+            }
+        }
+    }
+}
