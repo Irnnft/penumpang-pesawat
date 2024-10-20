@@ -83,7 +83,7 @@ public class Main {
             System.out.println("4. Keluar");
             System.out.print("Pilih opsi: ");
             int pilihan = scanner.nextInt();
-            scanner.nextLine();  // Membersihkan baris baru setelah input angka
+            scanner.nextLine();  
 
             switch (pilihan) {
                 case 1:
